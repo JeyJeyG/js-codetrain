@@ -11,22 +11,18 @@
     <script>
         console.log('about to fetch a rainbow');
 
+        catchRainbow().catch(error => {
+            console.error('error!');
+            console.error(error);
+        });
+
         async function catchRainbow(){
             const response = await fetch('img/ra.avif');
             const blob = await response.blob()   
             document.getElementById('rainbow').src = URL.createObjectURL(blob);       
         }
-        fetch('img/ra.avif').then(Response => {
-            console.log(Response);
-            return Response.blob();
-        }).then(blob =>  {
-            console.log(blob);
-            document.getElementById('rainbow').src = URL.createObjectURL(blob);  
-        })
-        .catch(error => {
-            console.error('error!');
-            console.error(error);
-        })
+        
+       
     </script>
 </body>
 </html>

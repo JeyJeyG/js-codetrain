@@ -8,19 +8,61 @@
 </head>
 <body>
     <img src = "" id = "rainbow" width = "476" alt = "">
+    <p id="text">
+        <div id="image-container"></div>
+
+    </p>
     <script>
+        const imageURLs = [
+            'img/3.jpg',
+            'img/4.jpg',
+        ];
         console.log('about to fetch a rainbow');
 
-        catchRainbow().catch(error => {
+        catchRainbow()
+        .then(response => {
+            console.log('yay'); 
+        }).catch(error => {
             console.error('error!');
             console.error(error);
         });
 
         async function catchRainbow(){
             const response = await fetch('img/ra.avif');
-            const blob = await response.blob()   
+            const blob = await response.blob();   
             document.getElementById('rainbow').src = URL.createObjectURL(blob);       
         }
+        displayTextFile()
+        async function displayTextFile(){
+            const response = await fetch('text.txt');
+            const text = await response.text();
+            document.getElementById('text').textContent =text; //text display
+        }
+        //array of images
+        
+        async function displayImage(){
+            try {
+                const container = document.getElementById('image-container');
+
+                for (const imageURL of imageURLs){
+                    const response = await fetch(imageURL);
+                    const blob = await response.blob();
+
+                    const imageElement = document.createElement('img');
+                    imageElement.src = URL.createObjectURL(blob);
+                    imageElement.alt = 'Image';
+                    imageElement.width = '300';
+                    imageElement.height = '300';
+
+                    container.appendChild(imageElement);
+
+                }
+            } catch(error){
+                console.log('Error!', error);
+
+            }
+        }
+        displayImage()
         
        
     </script>
